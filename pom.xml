@@ -23,6 +23,29 @@
     <build>
         <plugins>
             <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.4</version>
+		<configuration>
+		  <descriptorRefs>
+		    <descriptorRef>jar-with-dependencies</descriptorRef>
+		  </descriptorRefs>
+		  <archive>
+		    <manifest>
+		      <mainClass>GettingStarted</mainClass>
+		    </manifest>
+		  </archive>
+		</configuration>
+		<executions>
+		  <execution>
+		    <phase>package</phase>
+		    <goals>
+		      <goal>single</goal>
+		    </goals>
+		  </execution>
+		</executions>
+	    </plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.1</version>
@@ -33,16 +56,17 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+			    <finalName>build</finalName>
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>hello.GettingStarted</mainClass>
+                                    <mainClass>GettingStarted</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
             <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>exec-maven-plugin</artifactId>
