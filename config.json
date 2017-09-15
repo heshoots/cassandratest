@@ -1,0 +1,4 @@
+{
+  "replication": "CREATE KEYSPACE dev with REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1}",
+  "rows": "10000"
+}
