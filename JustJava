@@ -1,6 +1,4 @@
-FROM maven:latest
-ADD . /usr/src/mymaven
+FROM openjdk:latest
 WORKDIR  /usr/src/mymaven
-RUN mvn dependency:resolve
-RUN mvn compile
+ADD . /usr/src/mymaven
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"

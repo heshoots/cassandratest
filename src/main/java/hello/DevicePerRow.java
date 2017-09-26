@@ -2,7 +2,14 @@ import com.datastax.driver.core.*;
 import java.io.BufferedReader;
 import java.util.Random;
 
-public class DevicePerRow {
+
+public class DevicePerRow implements Runnable{
+  int numperbatch = 1000;
+  Session session;
+  QueryObjectGenerator val;
+  Boolean log;
+  String station;
+
   public static String formatTime(String datetime) {
     String[] dateTimeSplit = datetime.split(" ");
     String time = dateTimeSplit[1];
@@ -28,20 +35,30 @@ public class DevicePerRow {
     return out;
   }
 
-  DevicePerRow(Session session, QueryObjectGenerator val, Boolean log) {
+  DevicePerRow(Session session, QueryObjectGenerator val, Boolean log, String station) {
+    this.session = session;
+    this.val = val;
+    this.log = log;
+    this.station = station;
+  }
+
+  @Override
+  public void run() {
     Random rand = new Random();
     String line = "";
     int numlines = 0;
-    session.execute("CREATE TABLE measures (station_id text, time timestamp, value decimal, PRIMARY KEY (station_id, time))");
     try {
       while (!val.done()) {
-        numlines++;
-        String[] testval = val.getRow();
-        String station = getStation((int) (rand.nextFloat() * 4));
-        if (log) {
-          System.out.println(testval[0] + " " + testval[1] + " " + station);
+        BatchStatement batch = new BatchStatement();
+        numlines += numperbatch;
+        for (int i = 0; i < numperbatch; i++) {
+          String[] testval = this.val.getRow();
+          if (log) {
+            System.out.println(testval[0] + " " + testval[1] + " " + this.station);
+          }
+          batch.add(new SimpleStatement("INSERT INTO measures (station_id, time, value) VALUES ('" + this.station + "', '" + testval[0] + "', " + testval[1] + "); "));
         }
-        session.execute("INSERT INTO measures (station_id, time, value) VALUES ('" + station + "', '" + testval[0] + "', " + testval[1] + ")");
+        this.session.execute(batch);
       }
     }
     catch (Exception e) {
