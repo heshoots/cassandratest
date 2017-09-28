@@ -24,11 +24,11 @@ class ValueGenerator implements QueryObjectGenerator {
     return this.current.compareTo(this.end) >= 0;
   }
 
-  public String[] getRow() {
-    String[] out = new String[2];
-    out[0] = this.current.toString("yyyy-MM-dd HH:mm:ssZ");
+  public Object[] getRow() {
+    Object[] out = new Object[2];
+    out[0] = this.current.toDate();
     this.current = this.current.plusHours(1);
-    out[1] = String.format("%.2f", rand.nextFloat() * 200.0);
+    out[1] = rand.nextFloat() * 200.0;
     return out;
   }
 

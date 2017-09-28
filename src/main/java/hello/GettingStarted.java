@@ -17,9 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 public class GettingStarted {
 
-  static int NUM_THREADS = 16;
-  static int NUM_STATIONS = 16;
-
   public static void main(String[] args) {
     Cluster cluster;
     Session session;
@@ -51,11 +48,11 @@ public class GettingStarted {
     System.out.println("Num stations: " + NUM_STATIONS);
     System.out.println("hostname : " + hostname);
 
-    cluster = Cluster.builder().addContactPoint("hostname").build();
+    cluster = Cluster.builder().addContactPoint(hostname).build();
     session = cluster.connect();
 
-    session.execute(replication);
     session.execute("DROP KEYSPACE IF EXISTS dev");
+    session.execute(replication);
     session.execute("USE dev");
     session.execute("CREATE TABLE measures (station_id text, time timestamp, value decimal, PRIMARY KEY (station_id, time))");
 

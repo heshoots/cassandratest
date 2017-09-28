@@ -16,11 +16,11 @@ public class RowPerStationDay {
     try {
       while (!val.done()) {
         numlines++;
-        String[] testval = val.getRow();
+        Object[] testval = val.getRow();
         if (log) {
           System.out.println(testval[0] + " " + testval[1]);
         }
-        session.execute("INSERT INTO measures (station_id, date, time, value) VALUES ('SS90F011', '" + testval[0].split(" ")[0] + "' , '" + testval[0] + "', " + testval[1] + ")");
+       // session.execute("INSERT INTO measures (station_id, date, time, value) VALUES ('SS90F011', '" + testval[0].split(" ")[0] + "' , '" + testval[0] + "', " + testval[1] + ")");
       }
     }
     catch (Exception e) {

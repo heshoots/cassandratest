@@ -1,4 +1,5 @@
 FROM openjdk:latest
 WORKDIR  /usr/src/mymaven
-ADD . /usr/src/mymaven
+ADD ./config.json /usr/src/mymaven/config.json
+ADD ./target/gs-maven-0.1.0-jar-with-dependencies.jar /usr/src/mymaven/build.jar
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
