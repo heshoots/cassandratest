@@ -1,1 +1,1 @@
-docker run -it --rm -v /c/Users/maxpr/Documents/cassandratest:/opt/maven -w /opt/maven maven:3.2-jdk-7 --link some-cassandra:cassandra --link some-cassandra2:cassandra1 java -jar target/gs-maven-0.1.0-jar-with-dependencies.jar
+docker run -it --rm  --net=host -v /root/.m2:/root/.m2  -v /home/max/Documents/EACassandra/cassandratest:/opt/maven -w /opt/maven maven:3.2-jdk-7 java -jar target/gs-maven-0.1.0-jar-with-dependencies.jar
